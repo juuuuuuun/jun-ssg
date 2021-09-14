@@ -1,0 +1,27 @@
+{
+  "name": "jun-ssg",
+  "version": "1.0.0",
+  "description": "Open Source Project 0.1",
+  "main": "src/app.js",
+  "bin": {
+    "jun-ssg": "./src/app.js"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juuuuuuun/jun-ssg.git"
+  },
+  "author": "Jun Song",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juuuuuuun/jun-ssg/issues"
+  },
+  "homepage": "https://github.com/juuuuuuun/jun-ssg#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "yargs": "^17.1.1"
+  }
+}
