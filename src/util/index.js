@@ -59,19 +59,25 @@ const saveToFile = (html, outputDir = 'dist', filename) => {
 
 exports.convertFilesToHTML = async (filename, cssUrl, outputDir) => {
     let fileInfos = [];
-    if(fs.lstatSync(filename).isDirectory()) {
-        const dir = filename.split(pathDelimiter).slice(0, filename.split(pathDelimiter).length).join(pathDelimiter);
-        const content = await fs.promises.readdir(filename, 'utf-8');
-        fileInfos = content.map(e => `${dir}/${e}`);
-    } else {
-        fileInfos.push(filename);
+    try{
+        if(fs.lstatSync(filename).isDirectory()) {
+            const dir = filename.split(pathDelimiter).slice(0, filename.split(pathDelimiter).length).join(pathDelimiter);
+            const content = await fs.promises.readdir(filename, 'utf-8');
+            fileInfos = content.map(e => `${dir}/${e}`);
+        } else {
+            fileInfos.push(filename);
+        }
+        for(const file of fileInfos) {
+            const filename = file.split(pathDelimiter)[file.split(pathDelimiter).length - 1].split('.')[0];
+            convertToHTML(file, cssUrl).then(html => {
+                saveToFile(html, outputDir, filename);
+            });
+        }
+    }catch(err) {
+        console.log(chalk.red(err.message));
     }
-    for(const file of fileInfos) {
-        const filename = file.split(pathDelimiter)[file.split(pathDelimiter).length - 1].split('.')[0];
-        convertToHTML(file, cssUrl).then(html => {
-            saveToFile(html, outputDir, filename);
-        });
-    }
+
+    
 }
 
 
