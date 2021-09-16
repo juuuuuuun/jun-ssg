@@ -31,7 +31,8 @@ const convertToHTML = (fileInfo, cssUrl) => {
                 }
                 const delimeter = process.platform === 'win32' ? '\r\n' : '\n';
                 let title = "";
-                const paragraphs = content.split(delimeter + delimeter).map((e, i) => {
+                const paragraphs = content.split('\n\n').map((e, i) => {
+                    console.log(e)
                     if(i === 0) {
                         title = e;
                         return e;
@@ -39,7 +40,7 @@ const convertToHTML = (fileInfo, cssUrl) => {
                     if(i === 1 && !e.startsWith(delimeter)) {
                         title = "";
                     }
-                    return e.startsWith(delimeter) ? `<p>${e.substring(1)}</p>${delimeter}` : `<p>${e}</p>${delimeter}`
+                    return e.startsWith('\n') ? `<p>${e.substring(1)}</p>${delimeter}` : `<p>${e}</p>${delimeter}`
                 });
                 paragraphs[0] = `<h1>${paragraphs[0]}</h1>${delimeter}`;
                 const filename = fileInfo.split(pathDelimiter)[fileInfo.split(pathDelimiter).length - 1];
