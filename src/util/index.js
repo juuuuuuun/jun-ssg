@@ -52,7 +52,7 @@ const convertToHTML = (fileInfo, cssUrl) => {
 
 const saveToFile = (html, outputDir = 'dist', filename) => {
     !fs.existsSync(outputDir) && fs.mkdirSync(outputDir);
-    fs.promises.writeFile(path.join(__dirname, `../../${outputDir}/${filename}.html`), html)
+    fs.promises.writeFile(`${outputDir}${pathDelimiter}${filename}.html`, html)
         .then(() => console.log(chalk.green(`${filename}.html is created!`)))
         .catch(err => console.log(chalk.red(err.message)));
 }
