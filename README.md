@@ -9,7 +9,7 @@ jun-ssg is a simple html generator.
 npm i -g https://github.com/juuuuuuun/jun-ssg.git
 jun-ssg -i 'Silver Blaze.txt'
 
-For now, you should create sample directory and the file, Silver Blaze.txt, should be in the directory
+For now, you should place the sample files(Sherlock-Holmes-Selected-Stories series) in the same directory with the src folder.
 ## License
 
 MIT
