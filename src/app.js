@@ -5,7 +5,6 @@ const { convertFilesToHTML, getParams } = require('./util');
 
 try {
     const { argv } = getParams();
-    
     const { input: fileOrDirectory, output: outputDir, stylesheet: cssUrl }  = argv;
     if(!fileOrDirectory) {
         throw new Error('Please input filename');

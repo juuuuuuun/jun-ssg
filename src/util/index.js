@@ -1,6 +1,5 @@
 const chalk = require('chalk');
 const fs = require('fs');
-const path = require('path');
 const yargs = require('yargs');
 const { name, version } = require('../../package.json');
 
@@ -76,10 +75,7 @@ exports.convertFilesToHTML = async (filename, cssUrl, outputDir) => {
     }catch(err) {
         console.log(chalk.red(err.message));
     }
-
-    
 }
-
 
 exports.getParams = () => yargs
                             .usage('Usage: $0 [options]')
