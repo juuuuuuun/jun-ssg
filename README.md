@@ -23,11 +23,9 @@ can run by npm
 
 Example statements
 Input files => jun-ssg -i 'Silver Blaze.txt'
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> node src/app.js -i 'Silver Blaze.txt'
 Help => jun-ssg -h || --h || -help || --help
-
-For now, you should place the sample files(Sherlock-Holmes-Selected-Stories series) in the same directory with the src folder.
-
 
 ## License
 
