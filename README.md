@@ -26,11 +26,15 @@ can run by npm
 
 Example statements
 
-Input files => jun-ssg -i 'Silver Blaze.txt'
+Options:
+  -i, --input       Input a file or a directory              [string] [required]
+  -o, --output      Specify the output directory                        [string]
+  -s, --stylesheet  Import css URL                                      [string]
+  -v, --version     Show version number                                [boolean]
+  -h, --help        Show usage information                             [boolean]
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> node src/app.js -i 'Silver Blaze.txt'
-
-Help => jun-ssg -h || --h || -help || --help
+Examples:
+  After install my package, jun-ssg -i 'Silver Blaze.txt'
 
 ## License
 
