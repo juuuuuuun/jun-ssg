@@ -27,10 +27,15 @@ can run by npm
 Example statements
 
 Options:
+
   -i, --input       Input a file or a directory              [string] [required]
+
   -o, --output      Specify the output directory                        [string]
+
   -s, --stylesheet  Import css URL                                      [string]
+
   -v, --version     Show version number                                [boolean]
+  
   -h, --help        Show usage information                             [boolean]
 
 Examples:
