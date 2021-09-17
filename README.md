@@ -22,9 +22,11 @@ can run by npm
 -npm i -g https://github.com/juuuuuuun/jun-ssg.git
 
 Example statements
+
 Input files => jun-ssg -i 'Silver Blaze.txt'
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> node src/app.js -i 'Silver Blaze.txt'
+
 Help => jun-ssg -h || --h || -help || --help
 
 ## License
