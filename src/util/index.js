@@ -30,7 +30,7 @@ const convertToHTML = (fileInfo, cssUrl) => {
                 }
                 const delimeter = process.platform === 'win32' ? '\r\n' : '\n';
                 let title = "";
-                const paragraphs = content.split('\n\n').map((e, i) => {
+                const paragraphs = content.split(/\r?\n\r?\n/).map((e, i) => {
                     if(i === 0) {
                         title = e;
                         return e;
