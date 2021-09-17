@@ -17,8 +17,11 @@ Before start to use
 
 You can dowload and run the repository files
 -node src/app.js
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or
+
 can run by npm
+
 -npm i -g https://github.com/juuuuuuun/jun-ssg.git
 
 Example statements
