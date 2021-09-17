@@ -10,7 +10,7 @@ You can extract your file contents and put them as HTML content.
 
 ## Usage
 
-Before start to use
+### Before start to use
 
     After downloaded files delete the package-lock.json
     run "npm install" at terminal
@@ -24,7 +24,7 @@ can run by npm
 
 -npm i -g https://github.com/juuuuuuun/jun-ssg.git
 
-Example statements
+### Example statements
 
 Options:
 
@@ -35,7 +35,7 @@ Options:
   -s, --stylesheet  Import css URL                                      [string]
 
   -v, --version     Show version number                                [boolean]
-  
+
   -h, --help        Show usage information                             [boolean]
 
 Examples:
