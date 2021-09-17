@@ -29,19 +29,22 @@ const convertToHTML = (fileInfo, cssUrl) => {
                 if(!content) {
                     throw new Error('file does not exist');
                 }
-                const delimeter = process.platform === 'win32' ? '\r\n' : '\n';
+                //based on the os set different type of delimiters(still developing) 
+                const delimiter = process.platform === 'win32' ? '\r\n' : '\n';
                 let title = "";
+                //api doesnt work on other user's sysyem so replaced the delimiter to /\r?\n\r?\n/ at split
                 const paragraphs = content.split(/\r?\n\r?\n/).map((e, i) => {
                     if(i === 0) {
                         title = e;
                         return e;
                     }
-                    if(i === 1 && !e.startsWith(delimeter)) {
+                    if(i === 1 && !e.startsWith(delimiter)) {
                         title = "";
                     }
-                    return e.startsWith('\n') ? `<p>${e.substring(1)}</p>${delimeter}` : `<p>${e}</p>${delimeter}`
+                    return e.startsWith('\n') ? `<p>${e.substring(1)}</p>${delimiter}` : `<p>${e}</p>${delimiter}`
                 });
-                paragraphs[0] = `<h1>${paragraphs[0]}</h1>${delimeter}`;
+                //set 0st paragraphs to filename and title.
+                paragraphs[0] = `<h1>${paragraphs[0]}</h1>${delimiter}`;
                 const filename = fileInfo.split(pathDelimiter)[fileInfo.split(pathDelimiter).length - 1];
                 resolve(header(title ? title : filename, cssUrl) + paragraphs.join("") + footer);
             }).catch(err => {
@@ -49,17 +52,18 @@ const convertToHTML = (fileInfo, cssUrl) => {
             });
     });
 };
-
+//save the files to "dist" folder
 const saveToFile = (html, outputDir = 'dist', filename) => {
     !fs.existsSync(outputDir) && fs.mkdirSync(outputDir);
     fs.promises.writeFile(`${outputDir}${pathDelimiter}${filename}.html`, html)
         .then(() => console.log(chalk.green(`${filename}.html is created!`)))
         .catch(err => console.log(chalk.red(err.message)));
 }
-
+//it is working for converting files to html
 exports.convertFilesToHTML = async (filename, cssUrl, outputDir) => {
     let fileInfos = [];
     try{
+        //if the input content is folder then set the input value as a folder or not just set file.
         if(fs.lstatSync(filename).isDirectory()) {
             const dir = filename.split(pathDelimiter).slice(0, filename.split(pathDelimiter).length).join(pathDelimiter);
             const content = await fs.promises.readdir(filename, 'utf-8');
@@ -67,6 +71,7 @@ exports.convertFilesToHTML = async (filename, cssUrl, outputDir) => {
         } else {
             fileInfos.push(filename);
         }
+        //function part for generating an index file to go to sample pages.
         const linkTags = [];
         linkTags.push(`<h1>${filename} - Information Page</h1></n>`);
         for(const file of fileInfos) {
@@ -82,6 +87,7 @@ exports.convertFilesToHTML = async (filename, cssUrl, outputDir) => {
     }
 }
 
+//link of yeargs you might can find some infos that you need to understand this code https://github.com/yargs/yargs/blob/HEAD/docs/examples.md
 exports.getParams = () => yargs
                             .usage('Usage: $0 [options]')
                             .example(`After install my package, ${name} -i 'Silver Blaze.txt'`)
