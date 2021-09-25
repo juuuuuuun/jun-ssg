@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const fs = require('fs');
+const { resolve } = require('path');
 const yargs = require('yargs');
 const { name, version } = require('../../package.json');
 
@@ -25,10 +26,10 @@ const pathDelimiter = '/';
 const convertToHTML = (fileInfo, cssUrl) => {
     return new Promise((resolve, reject) => {
         fs.promises.readFile(fileInfo, 'utf-8')
-            .then(content => {
-                if(!content) {
-                    throw new Error('file does not exist');
-                }
+        .then(content => {
+            if(!content) {
+                throw new Error('file does not exist');
+            }
                 //based on the os set different type of delimiters(still developing) 
                 const delimiter = process.platform === 'win32' ? '\r\n' : '\n';
                 let title = "";
@@ -52,6 +53,47 @@ const convertToHTML = (fileInfo, cssUrl) => {
             });
     });
 };
+
+//convert MD files to HTML. text that has header 1 will be encased in <h1>...</h1>
+const mdToHTML = (fileInfo, cssUrl) =>{
+    return new Promise((resolve, reject) =>{
+        fs.promises.readFile(fileInfo, 'utf-8')
+        .then(content => {
+            if(!content) {
+                throw new Error('file does not exist');
+            }
+
+            //Find out if the user is running on wins or mac.
+            const delimiter = process.platform === 'win32' ? '\r\n' : '\n';
+            let title = "";
+         
+            //Change all of the MD headers to html headers
+            const paragraphs = content.split(/\r?\n\r?\n/).map((e, i) => {
+                if(e.startsWith("# ")){
+                    return `<h1>${e.substring(2)}</h1>${delimiter}`;
+                }else if(e.startsWith("## ")){
+                    return `<h2>${e.substring(3)}</h2>${delimiter}`;
+                }else if(e.startsWith("### ")){
+                    return `<h3>${e.substring(4)}</h3>${delimiter}`;
+                }else if(e.startsWith("#### ")){
+                    return `<h4>${e.substring(5)}</h4>${delimiter}`;
+                }else if(e.startsWith("##### ")){
+                    return `<h5>${e.substring(6)}</h5>${delimiter}`;
+                }else if(e.startsWith("###### ")){
+                    return `<h6>${e.substring(7)}</h6>${delimiter}`;
+                }else{
+                    return `<p>${e.replace(/```/, "")}</p>${delimiter}`;
+                }
+            });
+            
+            const filename = fileInfo.split(pathDelimiter)[fileInfo.split(pathDelimiter).length - 1];
+            resolve(header(filename.startsWith('.\\') ? filename.substring(2, filename.length-3) : filename.substring(0 , filename.length-3), cssUrl) + paragraphs.join("") + footer);
+        }).catch(err => {
+            throw err;
+        })
+    });
+};
+
 //save the files to "dist" folder
 const saveToFile = (html, outputDir = 'dist', filename) => {
     !fs.existsSync(outputDir) && fs.mkdirSync(outputDir);
@@ -77,9 +119,17 @@ exports.convertFilesToHTML = async (filename, cssUrl, outputDir) => {
         for(const file of fileInfos) {
             const name = file.split(pathDelimiter)[file.split(pathDelimiter).length - 1].split('.')[0];
             linkTags.push(`<a href="./${name}.html">${name}</a></br>\n`);
-            convertToHTML(file, cssUrl).then(html => {
-                saveToFile(html, outputDir, name);
-            });
+
+            //Add to detect if the input file is .md or .txt
+            if(filename.match(".md")){
+                mdToHTML(file, cssUrl).then(html => {
+                    saveToFile(html, outputDir, name);
+                });
+            }else{
+                convertToHTML(file, cssUrl).then(html => {
+                    saveToFile(html, outputDir, name);
+                });
+            }
         }
         saveToFile(header('ssg-html', cssUrl) + linkTags.join("") + footer, outputDir, 'index');
     }catch(err) {
