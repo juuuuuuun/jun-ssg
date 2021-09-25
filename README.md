@@ -7,6 +7,7 @@ Open Source Project 0.1
 
 jun-ssg is a simple html generator.
 You can extract your file contents and put them as HTML content.
+The input file can be MarkDown or text file.
 
 ## Usage
 
