@@ -18,6 +18,7 @@ The input file can be MarkDown or text file.</p>
 <h2>Usage</h2>
 <hr/>
 <h3>Before start to use</h3>
+<<<<<<< HEAD
 <p>    After downloaded files delete the package-lock.json
     run "npm install" at terminal</p>
 <p>You can dowload and run the repository files
@@ -34,6 +35,50 @@ The input file can be MarkDown or text file.</p>
 <p>  -h, --help        Show usage information                             [boolean]</p>
 <p>Examples:
   After install my package, jun-ssg -i 'Silver Blaze.txt'</p>
+=======
+<p>After downloaded files delete the package-lock.json run</p>
+<xmp>
+npm install
+</xmp>
+<p>at terminal</p>
+<p>You can dowload and run the repository files</p>
+<xmp>
+node src/app.js
+</xmp>
+<p>  or
+can run by npm</p>
+<xmp>
+npm i -g https://github.com/juuuuuuun/jun-ssg.git
+</xmp>
+<h3>Example statements</h3>
+<xmp>
+Options:
+  -i, --input       Input a file or a directory              [string] [required]
+  -o, --output      Specify the output directory                        [string]
+  -s, --stylesheet  Import css URL                                      [string]
+  -v, --version     Show version number                                [boolean]
+  -h, --help        Show usage information                             [boolean]
+Examples:
+  After install my package, jun-ssg -i 'Silver Blaze.txt'
+</xmp>
+<h2>Expectation output</h2>
+<p>When you are done all steps and running this API the output will be like this</p>
+<xmp>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>Title</h1>
+  <p>This is Paragraph 1</p>
+  <p>This is Paragraph 2</p>
+</body>
+</html>
+</xmp>
+>>>>>>> issue-12
 <h2>License</h2>
 <hr/>
 <p>MIT</p>
