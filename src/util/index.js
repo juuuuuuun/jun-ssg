@@ -81,6 +81,8 @@ const mdToHTML = (fileInfo, cssUrl) =>{
                     return `<h5>${e.substring(6)}</h5>${delimiter}`;
                 }else if(e.startsWith("###### ")){
                     return `<h6>${e.substring(7)}</h6>${delimiter}`;
+                }else if(e.startsWith("---")){
+                    return `<hr/>${delimiter}`
                 }else{
                     return `<p>${e.replace(/```/, "")}</p>${delimiter}`;
                 }
