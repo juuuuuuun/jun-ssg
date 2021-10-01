@@ -16,19 +16,33 @@ The input file can be MarkDown or text file.
 
 ### Before start to use
 
-    After downloaded files delete the package-lock.json
-    run "npm install" at terminal
+After downloaded files delete the package-lock.json run
+
+```
+
+npm install
+
+```
+
+at terminal
 
 You can dowload and run the repository files
+
+```
+
 -node src/app.js
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or
+  or
 
 can run by npm
 
 -npm i -g https://github.com/juuuuuuun/jun-ssg.git
 
+```
+
 ### Example statements
+
+```
 
 Options:
 
@@ -44,6 +58,8 @@ Options:
 
 Examples:
   After install my package, jun-ssg -i 'Silver Blaze.txt'
+
+```
 
 ## License
 
