@@ -117,11 +117,12 @@ exports.convertFilesToHTML = async (filename, cssUrl, outputDir) => {
         const linkTags = [];
         linkTags.push(`<h1>${filename} - Information Page</h1></n>`);
         for(const file of fileInfos) {
-            const name = file.split(pathDelimiter)[file.split(pathDelimiter).length - 1].split('.')[0];
+            const [name, ext] = file.split(pathDelimiter)[file.split(pathDelimiter).length - 1].split('.');
+            console.log(ext)
             linkTags.push(`<a href="./${name}.html">${name}</a></br>\n`);
 
             //Add to detect if the input file is .md or .txt
-            if(filename.match(".md")){
+            if(ext.match("md")){
                 mdToHTML(file, cssUrl).then(html => {
                     saveToFile(html, outputDir, name);
                 });

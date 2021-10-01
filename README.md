@@ -11,6 +11,8 @@ The input file can be MarkDown or text file.
 
 ## Usage
 
+---
+
 ### Before start to use
 
     After downloaded files delete the package-lock.json
@@ -43,6 +45,8 @@ Examples:
   After install my package, jun-ssg -i 'Silver Blaze.txt'
 
 ## License
+
+---
 
 MIT
 

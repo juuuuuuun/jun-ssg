@@ -1,6 +1,7 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=400&section=header&text=OSD600-Release0.1&animation=fadeIn&fontSize=90)
 
 # JUN-SSG
+
 ### The SSG for text file!
 
 Open Source Project 0.1
@@ -10,6 +11,8 @@ You can extract your file contents and put them as HTML content.
 The input file can be MarkDown or text file.
 
 ## Usage
+
+---
 
 ### Before start to use
 
@@ -43,6 +46,8 @@ Examples:
   After install my package, jun-ssg -i 'Silver Blaze.txt'
 
 ## License
+
+---
 
 MIT
 
