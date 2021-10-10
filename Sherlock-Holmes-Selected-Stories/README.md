@@ -21,26 +21,13 @@ After downloaded files delete the package-lock.json run
 ```
 
 npm install
-<<<<<<< HEAD
-
-=======
->>>>>>> issue-12
 ```
 
 at terminal
 
 You can dowload and run the repository files
-<<<<<<< HEAD
 
 ```
-
--node src/app.js
-
-  or
-=======
-
-```
->>>>>>> issue-12
 
 node src/app.js
 ```
@@ -53,16 +40,9 @@ can run by npm
 npm i -g https://github.com/juuuuuuun/jun-ssg.git
 ```
 
-```
-
 ### Example statements
 
 ```
-<<<<<<< HEAD
-
-Options:
-=======
->>>>>>> issue-12
 
 Options:
   -i, --input       Input a file or a directory              [string] [required]
@@ -93,8 +73,6 @@ When you are done all steps and running this API the output will be like this
   <p>This is Paragraph 2</p>
 </body>
 </html>
-```
-
 ```
 
 ## License
