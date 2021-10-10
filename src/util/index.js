@@ -4,8 +4,8 @@ const { resolve } = require("path");
 const yargs = require("yargs");
 const { name, version } = require("../../package.json");
 
-const header = (title, cssUrl) => `<!doctype html>
-<html lang="en">
+const header = (title, cssUrl, lang) => `<!doctype html>
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <title>${title}</title>
@@ -23,7 +23,7 @@ const footer = `</body>
 const pathDelimiter = "/";
 // process.platform !== 'win32' ? '/' : '\\';
 
-const convertToHTML = (fileInfo, cssUrl) => {
+const convertToHTML = (fileInfo, cssUrl, lang) => {
 	return new Promise((resolve, reject) => {
 		fs.promises
 			.readFile(fileInfo, "utf-8")
@@ -54,7 +54,7 @@ const convertToHTML = (fileInfo, cssUrl) => {
 						fileInfo.split(pathDelimiter).length - 1
 					];
 				resolve(
-					header(title ? title : filename, cssUrl) +
+					header(title ? title : filename, cssUrl, lang) +
 						paragraphs.join("") +
 						footer
 				);
@@ -66,7 +66,7 @@ const convertToHTML = (fileInfo, cssUrl) => {
 };
 
 //convert MD files to HTML. text that has header 1 will be encased in <h1>...</h1>
-const mdToHTML = (fileInfo, cssUrl) => {
+const mdToHTML = (fileInfo, cssUrl, lang) => {
 	return new Promise((resolve, reject) => {
 		fs.promises
 			.readFile(fileInfo, "utf-8")
@@ -113,7 +113,7 @@ const mdToHTML = (fileInfo, cssUrl) => {
 						filename.startsWith(".\\")
 							? filename.substring(2, filename.length - 3)
 							: filename.substring(0, filename.length - 3),
-						cssUrl
+						cssUrl, lang
 					) +
 						paragraphs.join("") +
 						footer
@@ -134,12 +134,14 @@ const saveToFile = (html, outputDir = "dist", filename) => {
 		.catch((err) => console.log(chalk.red(err.message)));
 };
 //it is working for converting files to html
-exports.convertFilesToHTML = async (filename, cssUrl, outputDir, config) => {
-	let fileInfos = [];
+exports.convertFilesToHTML = async (filename, cssUrl, lang = "en", outputDir, config) => {
+    let fileInfos = [];
 	if (config) {
 		fs.readFile(config, "utf-8", async (error, data) => {
 			if (error) return console.log(error);
-			const parsedData = JSON.parse(data);
+			const parsedData = JSON.parse(data)
+            parsedData.input = parsedData.input.replace('./', '');
+            const language = parsedData.lang ?? lang;
 			try {
 				if (fs.lstatSync(parsedData.input).isDirectory()) {
 					console.log(typeof parsedData.input);
@@ -160,24 +162,25 @@ exports.convertFilesToHTML = async (filename, cssUrl, outputDir, config) => {
 						[file.split(pathDelimiter).length - 1].split(".");
 					linkTags.push(`<a href="./${name}.html">${name}</a></br>\n`);
 					if (ext.match("md")) {
-						mdToHTML(file, parsedData.stylesheet).then((html) => {
+						mdToHTML(file, parsedData.stylesheet, language).then((html) => {
 							saveToFile(html, outputDir, name);
 						});
 					} else {
-						convertToHTML(file, parsedData.stylesheet).then((html) => {
+						convertToHTML(file, parsedData.stylesheet, language).then((html) => {
 							saveToFile(html, outputDir, name);
 						});
 					}
 				}
 				saveToFile(
-					header("ssg-html", parsedData.stylesheet) +
+					header("ssg-html", parsedData.stylesheet, language) +
 						linkTags.join("") +
 						footer,
 					outputDir,
 					"index"
 				);
 			} catch (err) {
-				console.log(chalk.red(err.message));
+                console.error(err)
+                console.log(chalk.red(err.message));
 			}
 		});
 	} else {
@@ -219,6 +222,7 @@ exports.convertFilesToHTML = async (filename, cssUrl, outputDir, config) => {
 				"index"
 			);
 		} catch (err) {
+            console.error(err)
 			console.log(chalk.red(err.message));
 		}
 	}
@@ -234,6 +238,11 @@ exports.getParams = () =>
 			describe: "Input a file or a directory",
 			type: "string"
 			// required: true
+		})
+        .option("l", {
+			alias: "lang",
+			describe: "HTML language attribute",
+			type: "string"
 		})
 		.option("o", {
 			alias: "output",
