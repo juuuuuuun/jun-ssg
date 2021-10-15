@@ -12,11 +12,13 @@ try {
 		config: config,
         lang
 	} = argv;
-	if (!fileOrDirectory && !config) {
-		throw new Error("Please input filename or config file");
-	}
+	if(!fileOrDirectory && !config) {
+        throw new Error("Please include an input filename or folder");
+      }
+      
     convertFilesToHTML(fileOrDirectory, cssUrl, lang, outputDir, config);
 } catch (err) {
     console.error(err);
 	console.log(chalk.red(err.message));
+    process.exit(-1);
 }

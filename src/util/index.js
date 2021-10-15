@@ -1,6 +1,5 @@
 const chalk = require("chalk");
 const fs = require("fs");
-const { resolve } = require("path");
 const yargs = require("yargs");
 const { name, version } = require("../../package.json");
 
@@ -31,6 +30,7 @@ const convertToHTML = (fileInfo, cssUrl, lang) => {
 				if (!content) {
 					throw new Error("file does not exist");
 				}
+                  
 				//based on the os set different type of delimiters(still developing)
 				const delimiter = process.platform === "win32" ? "\r\n" : "\n";
 				let title = "";
@@ -96,7 +96,7 @@ const mdToHTML = (fileInfo, cssUrl, lang) => {
 					} else if (e.startsWith("---")) {
 						return `<hr/>${delimiter}`;
 					} else if (e.startsWith("```")) {
-						return `${e.replace("```", "<xmp>")}${delimiter}`;
+					    return `${e.replace("```", "<xmp>")}${delimiter}`;
 					} else if (e.endsWith("```")) {
 						return `${e.replace("```", "</xmp>")}${delimiter}`;
 					} else {
@@ -128,63 +128,57 @@ const mdToHTML = (fileInfo, cssUrl, lang) => {
 //save the files to "dist" folder
 const saveToFile = (html, outputDir = "dist", filename) => {
 	!fs.existsSync(outputDir) && fs.mkdirSync(outputDir);
-	fs.promises
+	return fs.promises
 		.writeFile(`${outputDir}${pathDelimiter}${filename}.html`, html)
 		.then(() => console.log(chalk.green(`${filename}.html is created!`)))
-		.catch((err) => console.log(chalk.red(err.message)));
+		.catch((err) => {
+			throw err;
+		});
 };
 //it is working for converting files to html
 exports.convertFilesToHTML = async (filename, cssUrl, lang = "en", outputDir, config) => {
     let fileInfos = [];
-	if (config) {
-		fs.readFile(config, "utf-8", async (error, data) => {
-			if (error) return console.log(error);
+    try{
+        if (config) {
+            const data = await fs.promises.readFile(config, "utf-8");
 			const parsedData = JSON.parse(data)
-            parsedData.input = parsedData.input.replace('./', '');
-            const language = parsedData.lang ?? lang;
-			try {
-				if (fs.lstatSync(parsedData.input).isDirectory()) {
-					console.log(typeof parsedData.input);
-					const dir = parsedData.input
-						.split(pathDelimiter)
-						.slice(0, parsedData.input.split(pathDelimiter).length)
-						.join(pathDelimiter);
-					const content = await fs.promises.readdir(parsedData.input, "utf-8");
-					fileInfos = content.map((e) => `${dir}/${e}`);
-				} else {
-					fileInfos.push(parsedData.input);
-				}
-				const linkTags = [];
-				linkTags.push(`<h1>${parsedData.input} - Information Page</h1></n>`);
-				for (const file of fileInfos) {
-					const [name, ext] = file
-						.split(pathDelimiter)
-						[file.split(pathDelimiter).length - 1].split(".");
-					linkTags.push(`<a href="./${name}.html">${name}</a></br>\n`);
-					if (ext.match("md")) {
-						mdToHTML(file, parsedData.stylesheet, language).then((html) => {
-							saveToFile(html, outputDir, name);
-						});
-					} else {
-						convertToHTML(file, parsedData.stylesheet, language).then((html) => {
-							saveToFile(html, outputDir, name);
-						});
-					}
-				}
-				saveToFile(
-					header("ssg-html", parsedData.stylesheet, language) +
-						linkTags.join("") +
-						footer,
-					outputDir,
-					"index"
-				);
-			} catch (err) {
-                console.error(err)
-                console.log(chalk.red(err.message));
+			parsedData.input = parsedData.input.replace('./', '');
+			const language = parsedData.lang ?? lang;
+			if (fs.lstatSync(parsedData.input).isDirectory()) {
+				const dir = parsedData.input
+					.split(pathDelimiter)
+					.slice(0, parsedData.input.split(pathDelimiter).length)
+					.join(pathDelimiter);
+				const content = await fs.promises.readdir(parsedData.input, "utf-8");
+				fileInfos = content.map((e) => `${dir}/${e}`);
+			} else {
+				fileInfos.push(parsedData.input);
 			}
-		});
-	} else {
-		try {
+			const linkTags = [];
+			linkTags.push(`<h1>${parsedData.input} - Information Page</h1></n>`);
+			for (const file of fileInfos) {
+				const [name, ext] = file
+					.split(pathDelimiter)
+					[file.split(pathDelimiter).length - 1].split(".");
+				linkTags.push(`<a href="./${name}.html">${name}</a></br>\n`);
+				if (ext.match("md")) {
+					mdToHTML(file, parsedData.stylesheet, language).then(async (html) => {
+						await saveToFile(html, outputDir, name);
+					});
+				} else {
+					convertToHTML(file, parsedData.stylesheet, language).then(async (html) => {
+						await saveToFile(html, outputDir, name);
+					});
+				}
+			}
+			await saveToFile(
+				header("ssg-html", parsedData.stylesheet, language) +
+					linkTags.join("") +
+					footer,
+				outputDir,
+				"index"
+			);s
+        } else {
 			//if the input content is folder then set the input value as a folder or not just set file.
 			if (fs.lstatSync(filename).isDirectory()) {
 				const dir = filename
@@ -207,25 +201,25 @@ exports.convertFilesToHTML = async (filename, cssUrl, lang = "en", outputDir, co
 
 				//Add to detect if the input file is .md or .txt
 				if (ext.match("md")) {
-					mdToHTML(file, cssUrl).then((html) => {
-						saveToFile(html, outputDir, name);
+					mdToHTML(file, cssUrl).then(async (html) => {
+						await saveToFile(html, outputDir, name);
 					});
 				} else {
-					convertToHTML(file, cssUrl).then((html) => {
-						saveToFile(html, outputDir, name);
+					convertToHTML(file, cssUrl).then(async (html) => {
+						await saveToFile(html, outputDir, name);
 					});
 				}
 			}
-			saveToFile(
+			await saveToFile(
 				header("ssg-html", cssUrl) + linkTags.join("") + footer,
 				outputDir,
 				"index"
 			);
-		} catch (err) {
-            console.error(err)
-			console.log(chalk.red(err.message));
-		}
-	}
+        }
+    }catch(err) {
+        throw err;
+    }
+	
 };
 
 //link of yeargs you might can find some infos that you need to understand this code https://github.com/yargs/yargs/blob/HEAD/docs/examples.md
