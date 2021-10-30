@@ -10,13 +10,14 @@ async function start() {
 			output: outputDir,
 			stylesheet: cssUrl,
 			config: config,
-			lang
+			lang,
+			theme
 		} = argv;
 		if(!fileOrDirectory && !config) {
 			throw new Error("Please include an input filename or folder");
 		  }
 		  
-		await convertFilesToHTML(fileOrDirectory, cssUrl, lang, outputDir, config);
+		await convertFilesToHTML(fileOrDirectory, cssUrl, lang, outputDir, config, theme);
 	} catch (err) {
 		console.error(err);
 		console.log(chalk.red(err.message));

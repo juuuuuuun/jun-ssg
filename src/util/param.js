@@ -28,6 +28,11 @@ exports.getParams = () =>
 			describe: "Import css URL",
 			type: "string"
 		})
+		.option("t", {
+			alias: "theme",
+			describe: "convert the main theme from light -> dark",
+			type: "string"
+		})
 		.option("c", {
 			alias: "config",
 			describe: "Read user's options through a config JSon file"
