@@ -32,7 +32,7 @@ You can dowload and run the repository files
 node src/app.js
 ```
 
-  or
+or
 can run by npm
 
 ```
