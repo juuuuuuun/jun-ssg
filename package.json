@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:cover": "jest --coverage",
     "prettier": "prettier --write \"./**/*.{md,js}\"",
     "prettier-check": "prettier --check \"./**/*.{md,js}\"",
     "eslint": "eslint --ignore-path .gitignore .",
@@ -30,6 +31,8 @@
     "yargs": "^17.1.1"
   },
   "devDependencies": {
-    "eslint": "^8.1.0"
+    "@types/jest": "^27.0.2",
+    "eslint": "^8.1.0",
+    "jest": "^27.3.1"
   }
 }

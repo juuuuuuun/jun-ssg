@@ -205,7 +205,8 @@ function createIndex({ input, css, language, output, theme }, fileInfos) {
   linkTags.push(`<h1>${input} - Information Page</h1></n>`);
   for (const file of fileInfos) {
     const [name, ext] = file
-      .split(pathDelimiter)[file.split(pathDelimiter).length - 1].split('.');
+      .split(pathDelimiter)
+      [file.split(pathDelimiter).length - 1].split('.');
     linkTags.push(`<a href="./${name}.html">${name}</a></br>\n`);
     //Add to detect if the input file is .md or .txt
     if (ext.match('md')) {
@@ -227,25 +228,42 @@ function createIndex({ input, css, language, output, theme }, fileInfos) {
 }
 
 //it is working for converting files to html
-exports.convertFilesToHTML = async (
+function convertFilesToHTML(
   filename,
   cssUrl,
   language = 'en',
   outputDir = 'dist',
   config,
   theme
-) => {
-  const paramsData = await getParamsData(
-    filename,
-    cssUrl,
-    language,
-    outputDir,
-    config,
-    theme
-  );
+) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const paramsData = await getParamsData(
+        filename,
+        cssUrl,
+        language,
+        outputDir,
+        config,
+        theme
+      );
 
-  const fileInfos = await getFileData(paramsData.input);
+      const fileInfos = await getFileData(paramsData.input);
+      //function part for generating an index file to go to sample pages.
+      await createIndex(paramsData, fileInfos);
+      resolve('Created HTML files(s) successfully');
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 
-  //function part for generating an index file to go to sample pages.
-  await createIndex(paramsData, fileInfos);
+module.exports = {
+  header,
+  convertToHTML,
+  mdToHTML,
+  saveToFile,
+  getParamsData,
+  getFileData,
+  createIndex,
+  convertFilesToHTML,
 };
