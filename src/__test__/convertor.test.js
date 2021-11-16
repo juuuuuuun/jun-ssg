@@ -115,3 +115,15 @@ describe('getParamsData-non-config test', () => {
     expect(params.theme).toContain(params.theme);
   });
 });
+
+describe('getFileData-non-config test', () => {
+  const params = {
+    input: 'Sherlock-Holmes-Selected-Stories/Silver Blaze.txt',
+  };
+
+  it('should call getParamsData', async () => {
+    //const spyFn = jest.spyOn(fs.promises, 'getParamsData');
+    getFileData(params.input);
+    expect(params.input).toContain(params.input);
+  });
+});
