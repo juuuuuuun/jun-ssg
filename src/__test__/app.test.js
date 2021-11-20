@@ -22,4 +22,14 @@ describe('app test', () => {
     //await app.start();
     expect(util.getParams).toBeCalledTimes(0);
   });
+
+  it('should get a success message', async () => {
+    const spyFn = jest.spyOn(util, 'getParams');
+    spyFn.mockImplementation(() => ({
+      argv: {
+        config: 'config.json',
+      },
+    }));
+    expect(util.getParams).successMessage;
+  });
 });
