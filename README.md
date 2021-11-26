@@ -1,10 +1,10 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=400&section=header&text=OSD600-Release0.1&animation=fadeIn&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=400&section=header&text=OSD600-Release1.0.1&animation=fadeIn&fontSize=90)
 
 # JUN-SSG
 
 ### The SSG for text file!
 
-Open Source Project 0.1
+Open Source Project 1.0.1
 
 jun-ssg is a simple html generator.
 You can extract your file contents and put them as HTML content.
@@ -14,7 +14,17 @@ The input file can be MarkDown or text file.
 
 ---
 
-### Before start to use
+### Before start to use(by npm)
+
+Type the below code on your code editor terminal to download and install.
+
+```
+npm i jun-ssg
+```
+
+---
+
+### Before start to use(by GitHub)
 
 After downloaded files delete the package-lock.json run
 

@@ -34,5 +34,11 @@
     "@types/jest": "^27.0.2",
     "eslint": "^8.1.0",
     "jest": "^27.3.1"
-  }
+  },
+  "keywords": [
+    "text",
+    "html",
+    "convertor",
+    "ssg"
+  ]
 }
